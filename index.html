@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame3DD Viewer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="menubar" id="menubar"></div>
+
+  <header class="topbar">
+    <div class="modebar">
+      <button class="modebtn active" data-mode="pre">Preprocessing</button>
+      <button class="modebtn" data-mode="post">Postprocessing</button>
+      <select id="case-mode" class="casemode" title="Load case / vibration mode" disabled>
+        <option value="">(no load cases)</option>
+      </select>
+      <span class="sep"></span>
+      <span id="scale-ctl" class="scale-ctl"><label>Deformation scale <input id="num-scale" type="number" min="0.000001" max="1000000000" step="0.1" value="1" title="Deformation exaggeration. It shows the current value (auto-set after loading results); type your own to override."></label><span class="sep"></span></span>
+      <span id="speed-ctl" class="scale-ctl" style="display:none"><label>Speed <input id="num-speed" type="number" min="0.001" max="1000" step="0.005" value="0.1" title="Mode animation speed. Positive only; mouse wheel = &times;/1.1; at most 2 decimals."></label><span class="sep"></span></span>
+      <button id="play-btn" class="playbtn" type="button" style="display:none" title="Play/stop deformation animation (static load cases and modes)">&#9654;</button>
+      <span id="fileinfo" class="fileinfo">no files loaded</span>
+    </div>
+  </header>
+
+  <div class="errbar" id="errbar"></div>
+
+  <div class="main">
+    <section class="viewpane">
+      <div class="canvas-wrap" id="canvas-wrap"><canvas id="cv"></canvas></div>
+      <div class="legendbar" id="legend"></div>
+      <div class="status" id="status"></div>
+    </section>
+
+    <aside class="side">
+      <nav id="tabs">
+        <button class="tabbtn active" data-tab="tab-overview" data-mode="both">Overview</button>
+        <button class="tabbtn" data-tab="tab-raw" data-mode="both">Raw files</button>
+        <div class="grp" data-mode="pre">Model input</div>
+        <button class="tabbtn" data-tab="tab-nodes" data-mode="pre">Nodes</button>
+        <button class="tabbtn" data-tab="tab-restraints" data-mode="pre">Supports (restraints)</button>
+        <button class="tabbtn" data-tab="tab-elements" data-mode="pre">Elements / sections</button>
+        <button class="tabbtn" data-tab="tab-loads" data-mode="pre">Load cases</button>
+        <div class="grp" data-mode="post">Analysis results</div>
+        <button class="tabbtn" data-tab="tab-disp" data-mode="post" data-needs="results">Displacements</button>
+        <button class="tabbtn" data-tab="tab-ef" data-mode="post" data-needs="results">End Forces</button>
+        <button class="tabbtn" data-tab="tab-reac" data-mode="post" data-needs="results">Reactions</button>
+        <button class="tabbtn" data-tab="tab-peak" data-mode="post" data-needs="results">Peak Internal Forces</button>
+        <button class="tabbtn" data-tab="tab-modes" data-mode="post" data-needs="results">Modes</button>
+      </nav>
+      <div class="panes">
+        <section class="pane active" id="tab-overview">
+          <h2>Overview</h2>
+          <div id="ov-input"></div>
+          <div id="ov-output"></div>
+          <div id="ov-warnings"></div>
+        </section>
+        <section class="pane" id="tab-nodes">
+          <h2>Nodes</h2>
+          <div id="tb-nodes"></div>
+        </section>
+        <section class="pane" id="tab-restraints">
+          <h2>Restraints</h2>
+          <div id="tb-restraints"></div>
+        </section>
+        <section class="pane" id="tab-elements">
+          <h2>Elements</h2>
+          <div id="tb-elements"></div>
+        </section>
+        <section class="pane" id="tab-loads">
+          <h2>Load cases</h2>
+          <div id="tb-loads"></div>
+        </section>
+        <section class="pane" id="tab-disp">
+          <h2>Node displacements</h2>
+          <div id="tb-disp"></div>
+        </section>
+        <section class="pane" id="tab-ef">
+          <h2>Frame element end forces</h2>
+          <div id="tb-ef"></div>
+        </section>
+        <section class="pane" id="tab-reac">
+          <h2>Reactions</h2>
+          <div id="tb-reac"></div>
+        </section>
+        <section class="pane" id="tab-peak">
+          <h2>Peak internal forces</h2>
+          <div id="tb-peak"></div>
+        </section>
+        <section class="pane" id="tab-modes">
+          <h2>Modes</h2>
+          <div id="tb-modes"></div>
+          <div id="multi-mode"></div>
+          <div id="tb-shapes"></div>
+        </section>
+        <section class="pane" id="tab-raw">
+          <h2>Raw files</h2>
+          <h3>Input</h3>
+          <pre id="raw-input">(none)</pre>
+          <h3>Output</h3>
+          <pre id="raw-output">(none)</pre>
+        </section>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<input type="file" id="file-input" accept=".3dd" multiple hidden>
+<input type="file" id="file-output" accept=".out" multiple hidden>
+
+  <script src="js/util.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/engine3d.js"></script>
+<script src="js/parser3dd.js"></script>
+<script src="js/parserout.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
